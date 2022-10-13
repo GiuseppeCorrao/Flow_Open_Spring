@@ -9,8 +9,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserDTO {
 
-    String nameUser;
-    String surnameUser;
+    String name;
+    String surname;
     int age;
     Date birthday;
     String gender;
