@@ -35,8 +35,8 @@ public class SpringFoxConfig {
                         "Swagger Open_Flow_Spring",
                         "Swagger description for Open_Flow_Spring",
                         "1.0.0",
-                        "https://en.wikipedia.org/wiki/MIT_License                                                                          ",
-                        new Contact("Team OpenFlow", "https://github.com/GiuseppeCorrao/Flow_Open_Spring","mirko7726@gmail.com"),
+                        "https://en.wikipedia.org/wiki/MIT_License",
+                        new Contact("Team OpenFlow", "https://github.com/GiuseppeCorrao/Flow_Open_Spring", "mirko7726@gmail.com"),
                         "GNU",
                         "https://www.gnu.org/licenses/gpl-3.0.en.html",
                         Collections.emptyList()
@@ -54,6 +54,7 @@ public class SpringFoxConfig {
                 }
                 return bean;
             }
+
             private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(List<T> mappings) {
                 List<T> copy = mappings.stream()
                         .filter(mapping -> mapping.getPatternParser() == null)
