@@ -27,4 +27,5 @@ public class Product {
     private int quantity;
     @Column(nullable = false)
     private double priceDelivery;
+    //  private Brand brand;
 }
