@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getSingleUser(User user, @PathVariable Long id) {
+    public User getSingleUser(@PathVariable Long id) {
         return userRepository.findById(id).get();
     }
 
@@ -43,9 +43,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteUser(User user, @PathVariable Long id) {
+    public HttpStatus deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {
-            userRepository.delete(user);
+            userRepository.deleteById(id);
             return HttpStatus.OK;
         } else {
             return HttpStatus.CONFLICT;
