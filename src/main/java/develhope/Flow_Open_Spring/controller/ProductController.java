@@ -16,36 +16,43 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
-    @PostMapping("/create")
-    public Product createProduct(@RequestBody Product product){
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
         return productRepository.save(product);
     }
 
     @GetMapping
-    public List<Product> getProduct(){
+    public List<Product> getProduct() {
         return productRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> getOneProduct(@PathVariable Long id){
+    public Optional<Product> getOneProduct(@PathVariable Long id) {
         return productRepository.findById(id);
     }
 
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         Optional<Product> findProduct = productRepository.findById(id);
-        if(findProduct.isPresent()){
+        if (findProduct.isPresent()) {
             productRepository.save(product);
         }
         return product;
     }
+
     @DeleteMapping("/{id}")
-    public HttpStatus deleteProduct(@PathVariable Long id){
-        if(productRepository.existsById(id)){
+    public HttpStatus deleteOneProduct(@PathVariable Long id) {
+        if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
             return HttpStatus.ACCEPTED;
         } else {
             return HttpStatus.NO_CONTENT;
         }
     }
+
+    @DeleteMapping
+    public void deleteAll() {
+        productRepository.deleteAll();
+    }
+
 }
