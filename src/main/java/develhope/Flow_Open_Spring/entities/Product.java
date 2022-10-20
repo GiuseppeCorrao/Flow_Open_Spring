@@ -20,11 +20,13 @@ public class Product {
     private int quantity;
     @Column(nullable = false)
     private double priceDelivery;
+    @Column(nullable = false)
+    private Brand brand;
 
     public Product() {
     }
 
-    public Product(long id, String color, double price, String description, String name, int quantity, double priceDelivery) {
+    public Product(long id, String color, double price, String description, String name, int quantity, double priceDelivery, Brand brand) {
         this.id = id;
         this.color = color;
         this.price = price;
@@ -32,6 +34,7 @@ public class Product {
         this.name = name;
         this.quantity = quantity;
         this.priceDelivery = priceDelivery;
+        this.brand = brand;
     }
 
     public long getId() {
@@ -89,5 +92,12 @@ public class Product {
     public void setPriceDelivery(double priceDelivery) {
         this.priceDelivery = priceDelivery;
     }
-    //  private Brand brand;
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
 }
