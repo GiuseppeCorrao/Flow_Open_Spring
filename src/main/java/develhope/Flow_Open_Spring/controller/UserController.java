@@ -15,23 +15,23 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/get")
+    @GetMapping
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public User getSingleUser(User user, @PathVariable Long id) {
         return userRepository.findById(id).get();
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public User createUser(@RequestBody User user) {
         return userRepository.saveAndFlush(user);
 
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public HttpStatus updateUser(@RequestBody User user, @PathVariable Long id) {
         if (userRepository.existsById(id)) {
             user.setId(id);
@@ -42,18 +42,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/patch/{id}")
-    public HttpStatus updateOnePartOfUser(@RequestBody User user, @PathVariable Long id) {
-        if (userRepository.existsById(id)) {
-            user.setId(id);
-            userRepository.saveAndFlush(user);
-            return HttpStatus.OK;
-        } else {
-            return HttpStatus.CONFLICT;
-        }
-    }
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public HttpStatus deleteUser(User user, @PathVariable Long id) {
         if (userRepository.existsById(id)) {
             userRepository.delete(user);
@@ -63,9 +52,8 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public HttpStatus deleteAllUsers(User user, Long id) {
+    @DeleteMapping
+    public void deleteAllUsers() {
         userRepository.deleteAll();
-        return HttpStatus.OK;
     }
 }

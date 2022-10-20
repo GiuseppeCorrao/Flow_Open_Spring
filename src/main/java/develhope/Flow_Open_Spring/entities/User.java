@@ -21,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private String surname;
     @Column(nullable = false)
-    private  int age;
+    private int age;
     @Column(nullable = false)
     private Date birthday;
     @Column(nullable = false)
