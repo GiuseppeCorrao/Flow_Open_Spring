@@ -37,7 +37,9 @@ public class UserController {
             user.setId(id);
             userRepository.saveAndFlush(user);
             return HttpStatus.OK;
-        } else {
+        } else if(!userRepository.existsById(id)){
+            return HttpStatus.NOT_FOUND;
+        }else{
             return HttpStatus.CONFLICT;
         }
     }
@@ -47,7 +49,9 @@ public class UserController {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return HttpStatus.OK;
-        } else {
+        } else if(userRepository.existsById(id)){
+            return HttpStatus.NOT_FOUND;
+        }else{
             return HttpStatus.CONFLICT;
         }
     }
