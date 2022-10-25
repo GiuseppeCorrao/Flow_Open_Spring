@@ -18,11 +18,13 @@ server:
   port: 3030
 spring:
   datasource:
+
     url: jdbc:h2:mem:testdb
     username: testdb
     password: psw1234
+
   jpa:
     database: mysql
     show_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
