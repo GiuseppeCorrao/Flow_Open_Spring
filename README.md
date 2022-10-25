@@ -21,9 +21,7 @@ richiamare un record, una richiesta POST per crearne una, una richiesta PUT
 per aggiornare un record e una richiesta DELETE per eliminarne una. Nelle 
 chiamate API possono essere utilizzati tutti i metodi HTTP. Un'API REST ben 
 progettata è simile ad un sito web in esecuzione in un browser web con 
-funzionalità HTTP integrate. Questa è la [documentazione](https://www.redhat.com/it/topics/api/what-are-application-programming-interfaces),
-invece questa è alcuni esempi di richieste API [esempi](https://learn.microsoft.com/it-it/industry/retail/intelligent-recommendations/sample-api).
-
+funzionalità HTTP integrate. 
 
 ## tecnologie
 
@@ -33,6 +31,12 @@ per realizzare il progetto è stato utilizzato:
 - [MySql](https://it.wikipedia.org/wiki/MySQL);
 - [Postman descrizione 1](https://www.javatpoint.com/postman) oppure [Postman descrizione 2](https://en.wikipedia.org/wiki/Postman_(software));
 - [Java](https://it.wikipedia.org/wiki/Java_(linguaggio_di_programmazione)).
+
+
+## documentazione API
+
+- [documentazione API](https://www.redhat.com/it/topics/api/what-are-application-programming-interfaces);
+- [esempi di richieste](https://learn.microsoft.com/it-it/industry/retail/intelligent-recommendations/sample-api).
 
 ## link contenuti
 
