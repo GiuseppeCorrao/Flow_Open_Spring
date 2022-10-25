@@ -1,8 +1,28 @@
+environment: development
+server:
+  port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/flowopendev
-    username: root
-    password: password_root
+    url: jdbc:mysql://localhost:3306/flowopendev
+    username: developer
+    password: developer
+  jpa:
+    database: mysql
+    show_sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+---
+environment: test
+server:
+  port: 3030
+spring:
+  datasource:
+
+    url: jdbc:h2:mem:testdb
+    username: testdb
+    password: psw1234
+
   jpa:
     database: mysql
     show_sql: true
