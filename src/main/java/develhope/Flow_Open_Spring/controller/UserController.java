@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class UserController {
         if (userRepository.existsById(id)) {
             user.setId(id);
             userRepository.saveAndFlush(user);
-            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been updated");
         } else if(!userRepository.existsById(id)){
           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
@@ -50,8 +50,8 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
-            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
-        } else if(userRepository.existsById(id)){
+            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been deleted");
+        } else if(!userRepository.existsById(id)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
