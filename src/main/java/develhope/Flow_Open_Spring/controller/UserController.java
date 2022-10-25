@@ -4,12 +4,13 @@ import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -26,38 +27,40 @@ public class UserController {
     }
 
     @PostMapping()
-    public User createUser(@RequestBody User user) {
-        return userRepository.saveAndFlush(user);
+    public ResponseEntity createUser(@RequestBody User user) {
+         userRepository.saveAndFlush(user);
+         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 
     @PutMapping("/{id}")
-    public HttpStatus updateUser(@RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity updateUser(@RequestBody User user, @PathVariable Long id) {
         if (userRepository.existsById(id)) {
             user.setId(id);
             userRepository.saveAndFlush(user);
-            return HttpStatus.OK;
+            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
         } else if(!userRepository.existsById(id)){
-            return HttpStatus.NOT_FOUND;
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
-            return HttpStatus.CONFLICT;
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
         }
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteUser(@PathVariable Long id) {
+    public ResponseEntity deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
-            return HttpStatus.OK;
+            return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
         } else if(userRepository.existsById(id)){
-            return HttpStatus.NOT_FOUND;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
-            return HttpStatus.CONFLICT;
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
         }
     }
 
     @DeleteMapping
-    public void deleteAllUsers() {
+    public ResponseEntity deleteAllUsers() {
         userRepository.deleteAll();
+        return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
     }
 }
