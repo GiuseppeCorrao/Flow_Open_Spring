@@ -25,9 +25,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User() {
-    }
-
     public User(long id, String name, String surname, int age, Date birthday, String gender, String email, String password) {
         this.id = id;
         this.name = name;
@@ -37,6 +34,9 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
     }
 
     public long getId() {
