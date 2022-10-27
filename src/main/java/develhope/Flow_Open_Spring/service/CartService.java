@@ -3,7 +3,6 @@ package develhope.Flow_Open_Spring.service;
 import develhope.Flow_Open_Spring.entities.Product;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -11,10 +10,10 @@ public class CartService {
 
     List<Product> productsOnCart;
 
-
-    public CartService() {
-        this.productsOnCart = new ArrayList<Product>();
+    public CartService(List<Product> productsOnCart) {
+        this.productsOnCart = productsOnCart;
     }
+
 
 
     public void buy() {
@@ -55,7 +54,6 @@ public class CartService {
 
         return sum;
     }
-
 
     public List<Product> getProductsOnCart() {
         return productsOnCart;
