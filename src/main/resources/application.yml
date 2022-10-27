@@ -1,7 +1,11 @@
-environment: development
+server:
+  port: 4040
+---
+environments: development
 server:
   port: 8080
 spring:
+  profiles: development
   datasource:
     url: jdbc:mysql://localhost:3306/flowopendev
     username: developer
@@ -13,16 +17,15 @@ spring:
       ddl-auto: create-drop
 
 ---
-environment: test
+environments: test
 server:
   port: 3030
 spring:
+  profiles: test
   datasource:
-
     url: jdbc:h2:mem:testdb
     username: testdb
     password: psw1234
-
   jpa:
     database: mysql
     show_sql: true
