@@ -2,7 +2,7 @@ package develhope.Flow_Open_Spring.entities;
 
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class User {
@@ -17,7 +17,7 @@ public class User {
     @Column(nullable = false)
     private int age;
     @Column(nullable = false)
-    private Date birthday;
+    private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
     @Column(unique = true, nullable = false)
@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(long id, String name, String surname, int age, Date birthday, String gender, String email, String password) {
+    public User(long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -71,11 +71,11 @@ public class User {
         this.age = age;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
