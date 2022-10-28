@@ -33,9 +33,11 @@ public class ProductController {
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             productRepository.findById(id);
-            ResponseEntity.status(HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else if (findProduct.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Did not find product!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
     }
 
     @PutMapping("/{id}")
@@ -43,9 +45,11 @@ public class ProductController {
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             productRepository.save(product);
-            ResponseEntity.status(HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else if (findProduct.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Did not find product!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
     }
 
     @DeleteMapping("/{id}")
@@ -54,7 +58,7 @@ public class ProductController {
             productRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Did not find the product");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find the product");
         }
     }
 
