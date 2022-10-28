@@ -38,6 +38,10 @@ public class Product {
         this.brand = brand;
     }
 
+    public Product(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }
