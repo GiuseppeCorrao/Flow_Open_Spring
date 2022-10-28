@@ -20,6 +20,7 @@ public class Product {
     private int quantity;
     @Column(nullable = false)
     private double priceDelivery;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Brand brand;
 
@@ -35,6 +36,10 @@ public class Product {
         this.quantity = quantity;
         this.priceDelivery = priceDelivery;
         this.brand = brand;
+    }
+
+    public Product(long id) {
+        this.id = id;
     }
 
     public long getId() {

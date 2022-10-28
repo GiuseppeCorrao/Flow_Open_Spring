@@ -4,6 +4,7 @@ import develhope.Flow_Open_Spring.entities.Product;
 import develhope.Flow_Open_Spring.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,9 @@ public class ProductController {
     ProductRepository productRepository;
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+    public ResponseEntity createProduct(@RequestBody Product product) {
+        productRepository.save(product);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping
@@ -27,26 +29,36 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> getOneProduct(@PathVariable Long id) {
-        return productRepository.findById(id);
+    public ResponseEntity getOneProduct(@PathVariable Long id) {
+        Optional<Product> findProduct = productRepository.findById(id);
+        if (findProduct.isPresent()) {
+            productRepository.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else if (findProduct.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity updateProduct(@PathVariable Long id, @RequestBody Product product) {
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             productRepository.save(product);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else if (findProduct.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }
-        return product;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteOneProduct(@PathVariable Long id) {
+    public ResponseEntity deleteOneProduct(@PathVariable Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
-            return HttpStatus.ACCEPTED;
+            return ResponseEntity.status(HttpStatus.OK).build();
         } else {
-            return HttpStatus.NO_CONTENT;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find the product");
         }
     }
 
