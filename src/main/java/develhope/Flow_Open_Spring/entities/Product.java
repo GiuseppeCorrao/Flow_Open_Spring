@@ -20,6 +20,7 @@ public class Product {
     private int quantity;
     @Column(nullable = false)
     private double priceDelivery;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Brand brand;
 
