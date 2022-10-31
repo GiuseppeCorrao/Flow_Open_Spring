@@ -15,6 +15,9 @@ spring:
     show_sql: true
     hibernate:
       ddl-auto: create-drop
+      output:
+        ansi:
+          enabled: ALWAYS
 
 ---
 environments: test
@@ -31,3 +34,6 @@ spring:
     show_sql: true
     hibernate:
       ddl-auto: create-drop
+      output:
+        ansi:
+          enabled: ALWAYS
