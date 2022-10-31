@@ -26,6 +26,9 @@ public class CartService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private EmailOrderService emailOrderService;
+
     public CartService(List<Product> productsOnCart) {
         this.productsOnCart = productsOnCart;
     }
@@ -33,9 +36,10 @@ public class CartService {
 
     public void buy(User user) {
         var v = totalPrice();
-        orderRepository.save(new Order(1, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v));
+        Order order = new Order(1, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v);
+        orderRepository.save(order);
         productsOnCart.clear();
-        //send order to email
+        emailOrderService.sendToForOrder(order);
         //send order to external service
     }
 
