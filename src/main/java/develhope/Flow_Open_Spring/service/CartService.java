@@ -1,23 +1,42 @@
 package develhope.Flow_Open_Spring.service;
 
+import develhope.Flow_Open_Spring.entities.Order;
 import develhope.Flow_Open_Spring.entities.Product;
+import develhope.Flow_Open_Spring.entities.User;
+import develhope.Flow_Open_Spring.repositories.OrderRepository;
+import develhope.Flow_Open_Spring.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
+
 
 @Service
 public class CartService {
 
+
+
     List<Product> productsOnCart;
+
+    //add variable for pricedelivery
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     public CartService(List<Product> productsOnCart) {
         this.productsOnCart = productsOnCart;
     }
 
 
-
-    public void buy() {
+    public void buy(User user) {
+        var v = totalPrice();
+        orderRepository.save(new Order(1, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v));
         productsOnCart.clear();
+        //send order to email
+        //send order to external service
     }
 
 
