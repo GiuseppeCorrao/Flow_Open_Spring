@@ -248,3 +248,5 @@ org.h2.jdbc.JdbcSQLException: Database is already closed (to disable automatic c
 2022-10-31 11:04:26,553 INFO develhope.Flow_Open_Spring.controller.ProductController [http-nio-3030-exec-3] Product created
 2022-10-31 11:04:27,740 INFO develhope.Flow_Open_Spring.controller.ProductController [http-nio-3030-exec-4] Product created
 2022-10-31 11:04:34,972 ERROR develhope.Flow_Open_Spring.controller.ProductController [http-nio-3030-exec-5] There is an error: java.lang.Error: no products in the db
+2022-10-31 11:19:21,875 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9m14s381ms831µs800ns).
+2022-10-31 11:59:05,252 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=11m12s874ms528µs500ns).
