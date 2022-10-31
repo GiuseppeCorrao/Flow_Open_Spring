@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/notification")
 public class NotificationController {
 
-    @Autowired(required = false)
+    @Autowired
     UserService userService;
-    @Autowired(required = false)
+    @Autowired
     EmailService emailService;
 
     @PostMapping
