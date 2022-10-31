@@ -9,7 +9,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password) {
+    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -39,11 +39,11 @@ public class User {
     public User() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
