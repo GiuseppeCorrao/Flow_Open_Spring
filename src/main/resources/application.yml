@@ -18,6 +18,17 @@ spring:
       output:
         ansi:
           enabled: ALWAYS
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        username: f4kemailt3st@gmail.com
+        password: pospmwcwuqdkjjhb
+        properties:
+          mail:
+            smtp:
+              auth: true
+              starttls:
+                enable: true
 
 ---
 environments: test
@@ -37,3 +48,14 @@ spring:
       output:
         ansi:
           enabled: ALWAYS
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: f4kemailt3st@gmail.com
+    password: pospmwcwuqdkjjhb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
