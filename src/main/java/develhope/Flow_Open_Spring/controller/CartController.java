@@ -1,6 +1,7 @@
 package develhope.Flow_Open_Spring.controller;
 
 import develhope.Flow_Open_Spring.entities.Product;
+import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.ProductRepository;
 import develhope.Flow_Open_Spring.service.CartService;
 import org.slf4j.Logger;
@@ -8,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class CartController {
         return cartService.totalPrice();
     }
 
-    @DeleteMapping("/buy")
-    public List<Product> buy(){
-        cartService.buy();
-        logger.info("Purchased product");
+
+    @PostMapping("/buy")
+    public List<Product> buy(@RequestBody User user){
+        cartService.buy(user);
         return productRepository.findAll();
     }
 
