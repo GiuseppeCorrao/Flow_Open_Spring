@@ -7,11 +7,12 @@ import java.util.List;
 @Entity
 public class Order {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST) //because when this variable don't exist, the order can't exist
     private User user;
 
     @OneToMany(cascade = CascadeType.PERSIST)

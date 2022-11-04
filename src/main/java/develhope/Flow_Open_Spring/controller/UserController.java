@@ -17,7 +17,7 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<User> getUsers(){
         return userRepository.findAll();
     }
 
@@ -61,6 +61,6 @@ public class UserController {
     @DeleteMapping
     public ResponseEntity deleteAllUsers() {
         userRepository.deleteAll();
-        return (ResponseEntity) ResponseEntity.status(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

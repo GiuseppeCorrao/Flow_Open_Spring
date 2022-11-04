@@ -27,21 +27,16 @@ public class OrderExternalController {
     @PostMapping("")
     public ResponseEntity postOrder(@RequestParam Order order) throws Exception {
         order.setId(null);
-        if (orderRepository.existsById(order.getId())) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("the id already exist on database");
+        orderRepository.save(order);
+        if (!orderRepository.existsById(order.getId())) throw new Exception("can't save the order");
 
-        } else {
-            orderRepository.save(order);
-            if(!orderRepository.existsById(order.getId())) throw new Exception("can't save the order");
-
-            emailOrderService.sendToForOrder(orderRepository.getReferenceById(order.getId()));
+        emailOrderService.sendToForOrder(orderRepository.getReferenceById(order.getId()));
 
 
-
-            return ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
-        }
+        return ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteOrder(@PathVariable Long id) {
