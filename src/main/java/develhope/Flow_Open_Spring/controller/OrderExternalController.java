@@ -2,6 +2,7 @@ package develhope.Flow_Open_Spring.controller;
 
 import develhope.Flow_Open_Spring.entities.Order;
 import develhope.Flow_Open_Spring.repositories.OrderRepository;
+import develhope.Flow_Open_Spring.service.EmailOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,15 +21,23 @@ public class OrderExternalController {
     @Autowired
     private OrderRepository orderRepository;
 
-    @PostMapping("")
-    public ResponseEntity postOrder(@RequestParam Order order) {
+    @Autowired
+    private EmailOrderService emailOrderService;
 
+    @PostMapping("")
+    public ResponseEntity postOrder(@RequestParam Order order) throws Exception {
+        order.setId(null);
         if (orderRepository.existsById(order.getId())) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("the id already exist on database");
 
         } else {
             orderRepository.save(order);
+            if(!orderRepository.existsById(order.getId())) throw new Exception("can't save the order");
+
+            emailOrderService.sendToForOrder(orderRepository.getReferenceById(order.getId()));
+
+
 
             return ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
         }
