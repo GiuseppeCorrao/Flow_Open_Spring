@@ -47,12 +47,10 @@ public class UserController {
             logger.info("User updated");
             return ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been updated");
         } else if(!userRepository.existsById(id)){
-            Error error = new Error("user doesn't exists");
-            logger.error("Can't update this user: " + error);
+            logger.error("Can't update this user: user doesn't exists");
           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
-            Error error = new Error("conflict in your request");
-            logger.error("Can't update this user: " + error);
+            logger.error("Can't update this user: conflict in your request");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
         }
     }
@@ -64,12 +62,11 @@ public class UserController {
             logger.info("User deleted");
             return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been deleted");
         } else if(!userRepository.existsById(id)){
-            Error error = new Error("user doesn't exists");
-            logger.error("Can't delete this user: " + error);
+            logger.error("Can't delete this user: user doesn't exists");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
             Error error = new Error("conflict in your request");
-            logger.error("Can't delete this user: " + error);
+            logger.error("Can't delete this user: conflict in your request ");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
         }
     }

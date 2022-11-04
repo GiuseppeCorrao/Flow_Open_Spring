@@ -19,13 +19,14 @@ import java.util.List;
 public class CartController {
 
   @Autowired
-    ProductRepository productRepository;
+  ProductRepository productRepository;
     @Autowired
     CartService cartService;
     Logger logger = LoggerFactory.getLogger(CartController.class);
 
     @GetMapping("/totalPrice")
     public double totalPrice(){
+        logger.info("Calculating the total price");
         return cartService.totalPrice();
     }
 
@@ -33,6 +34,7 @@ public class CartController {
     @PostMapping("/buy")
     public List<Product> buy(@RequestBody User user){
         cartService.buy(user);
+        logger.info("Product purchased");
         return productRepository.findAll();
     }
 

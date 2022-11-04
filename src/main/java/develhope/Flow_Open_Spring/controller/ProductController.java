@@ -41,12 +41,10 @@ public class ProductController {
             logger.info("Single product taken");
             return ResponseEntity.status(HttpStatus.OK).build();
         } else if (findProduct.isEmpty()) {
-            Error error = new Error("no products in the db");
-            logger.error("There is an error: " + error);
+            logger.error("There is an error: no products in the db");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }
-        Error error = new Error("BAD_REQUEST");
-        logger.error("There is an error: " + error);
+        logger.error("There is an error: BAD_ REQUEST");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
     }
 
@@ -58,8 +56,7 @@ public class ProductController {
             productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else if (findProduct.isEmpty()) {
-            Error error = new Error("no products in the db");
-            logger.error("There is an error: " + error);
+            logger.error("There is an error: no products in the db");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }
         Error error = new Error("BAD_REQUEST");
@@ -74,8 +71,7 @@ public class ProductController {
             logger.info("Product deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
-            Error error = new Error("can't delete the product because doesn't exists");
-            logger.error("There is an error: " + error);
+            logger.error("There is an error: can't delete the product because doesn't exists");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find the product");
         }
     }
