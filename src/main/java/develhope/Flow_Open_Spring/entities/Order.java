@@ -19,7 +19,8 @@ public class Order {
     private List<Product> product;
 
 
-    private LocalDate Date;
+    private LocalDate date;
+
 
     private double price;
 
@@ -32,7 +33,7 @@ public class Order {
         this.id = id;
         this.user = user;
         this.product = product;
-        Date = date;
+        this.date = date;
         this.price = price;
     }
 
@@ -61,11 +62,11 @@ public class Order {
     }
 
     public LocalDate getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(LocalDate date) {
-        Date = date;
+        this.date = date;
     }
 
     public double getPrice() {

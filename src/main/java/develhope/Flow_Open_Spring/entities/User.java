@@ -20,6 +20,9 @@ public class User {
     private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
+
+    @Column(nullable = false)
+    private String address;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
