@@ -22,7 +22,7 @@ spring:
         password: pospmwcwuqdkjjhb
         properties:
           mail:
-            smtp:
+            smtp:\connect
               auth: true
               starttls:
                 enable: true

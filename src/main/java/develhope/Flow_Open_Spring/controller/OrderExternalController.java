@@ -26,7 +26,7 @@ public class OrderExternalController {
 
 
     @PostMapping("")
-    public ResponseEntity postOrder(@RequestParam Order order) throws Exception {
+    public ResponseEntity postOrder(@RequestBody Order order) throws Exception {
 
         orderService.saveOrder(order);
 
