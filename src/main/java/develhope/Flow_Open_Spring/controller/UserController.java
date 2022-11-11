@@ -32,8 +32,11 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity createUser(@RequestBody User user) {
-         userRepository.saveAndFlush(user);
+    public ResponseEntity createUser(@RequestBody User user) throws Exception {
+        if (!userRepository.existsByEmail(user.getEmail())) {
+            throw new Exception("Email already taken");
+        }
+        userRepository.saveAndFlush(user);
          logger.info("User created");
          return ResponseEntity.status(HttpStatus.OK).build();
 

@@ -32,7 +32,7 @@ public class CartController {
 
 
     @PostMapping("/buy")
-    public List<Product> buy(@RequestBody User user){
+    public List<Product> buy(@RequestBody User user) throws Exception {
         cartService.buy(user);
         logger.info("Product purchased");
         return productRepository.findAll();
