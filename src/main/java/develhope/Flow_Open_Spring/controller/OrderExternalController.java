@@ -21,12 +21,12 @@ public class OrderExternalController {
     private OrderRepository orderRepository;
 
     @PostMapping("")
-    public ResponseEntity postOrder(@RequestParam Order order) {
+    public ResponseEntity postOrder(@RequestParam Order order) throws Exception {
 
         if (orderRepository.existsById(order.getId())) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("the id already exist on database");
-
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("the id already exist on database");
+            throw new Exception("Id already exists");
         } else {
             orderRepository.save(order);
 
@@ -35,14 +35,14 @@ public class OrderExternalController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteOrder(@PathVariable Long id) {
+    public ResponseEntity deleteOrder(@PathVariable Long id) throws Exception {
 
         orderRepository.deleteById(id);
 
         if (orderRepository.existsById(id)) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
-
+             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
+            throw new Exception("This order doesn't exists ");
         } else {
 
             return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
@@ -50,7 +50,7 @@ public class OrderExternalController {
     }
 
     @GetMapping("")
-    public Page<Order> getMultiple(@RequestParam(required = false) Optional<Integer> page, @RequestParam(required = false) Optional<Integer> size) {
+    public Page<Order> getMultiple(@RequestParam(required = false) Optional<Integer> page, @RequestParam(required = false) Optional<Integer> size) throws Exception{
 
         if (page.isPresent() && size.isPresent()) {
 
@@ -63,9 +63,8 @@ public class OrderExternalController {
             return orders;
 
         } else {
-            Page<Order> pageOrder = null;
+            throw new Exception("Page not found or size wrong");
 
-            return pageOrder;
         }
 
     }

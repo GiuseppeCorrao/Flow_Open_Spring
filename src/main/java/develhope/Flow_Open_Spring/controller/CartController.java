@@ -46,13 +46,14 @@ public class CartController {
     }
 
     @PutMapping("/{id}/addOnCart")
-    public ResponseEntity addOnCart(@PathVariable Long id, @RequestBody Product product){
+    public ResponseEntity addOnCart(@PathVariable Long id, @RequestBody Product product) throws Exception{
         if(productRepository.existsById(id)) {
             cartService.addOnCart(product);
             logger.info("Product added on the cart");
             return ResponseEntity.status(HttpStatus.OK).body("Product added on cart");
         }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+             throw new Exception("Cannot find this product because doesn't exists ");
         }
     }
 }

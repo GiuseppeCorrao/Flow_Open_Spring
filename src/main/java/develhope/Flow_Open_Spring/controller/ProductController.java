@@ -34,22 +34,24 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOneProduct(@PathVariable Long id) {
+    public ResponseEntity getOneProduct(@PathVariable Long id) throws Exception{
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             productRepository.findById(id);
             logger.info("Single product taken");
             return ResponseEntity.status(HttpStatus.OK).build();
         } else if (findProduct.isEmpty()) {
-            logger.error("There is an error: no products in the db");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+            logger.error("There is an error: this product doesn't exists");
+             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+            throw new Exception("Cannot find this product because is null");
         }
         logger.error("There is an error: BAD_ REQUEST");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
+         ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
+        throw new Exception("BAD_REQUEST Exception.");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity updateProduct(@PathVariable Long id, @RequestBody Product product) throws Exception{
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             logger.info("Product updated");
@@ -57,22 +59,24 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.OK).build();
         } else if (findProduct.isEmpty()) {
             logger.error("There is an error: no products in the db");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+            throw new Exception("Cannot update this product because is null");
         }
-        Error error = new Error("BAD_REQUEST");
-        logger.error("There is an error: " + error);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
+        logger.error("There is an error: BAD_REQUEST");
+         ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
+        throw new Exception("BAD_REQUEST Exception.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOneProduct(@PathVariable Long id) {
+    public ResponseEntity deleteOneProduct(@PathVariable Long id) throws Exception{
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
             logger.info("Product deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             logger.error("There is an error: can't delete the product because doesn't exists");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find the product");
+             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find the product");
+            throw new Exception("Product not found.");
         }
     }
 

@@ -12,10 +12,11 @@ public class UserService {
 
     List<User> users;
 
-    public User getUserById(Long userId) {
+    public User getUserById(Long userId) throws Exception {
         Optional<User> studentOptional = users.stream().filter(user -> user.getId().equals(userId)).findAny();
-        if (studentOptional.isPresent()) return studentOptional.get();
-        return null;
+        if (studentOptional.isPresent()){
+            return studentOptional.get();
+        }else throw new Exception("Cannot find this id");
     }
 
 }

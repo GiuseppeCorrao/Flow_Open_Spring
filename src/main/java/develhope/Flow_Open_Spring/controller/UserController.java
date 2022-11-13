@@ -43,34 +43,36 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateUser(@RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity updateUser(@RequestBody User user, @PathVariable Long id) throws Exception {
         if (userRepository.existsById(id)) {
             user.setId(id);
             userRepository.saveAndFlush(user);
             logger.info("User updated");
             return ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been updated");
-        } else if(!userRepository.existsById(id)){
+        } else if(!userRepository.existsById(id)) {
             logger.error("Can't update this user: user doesn't exists");
-          return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
+            throw new Exception("Id not found");
         }else{
             logger.error("Can't update this user: conflict in your request");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
+            ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
+            throw new Exception("RequestConflict Exception");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
+    public ResponseEntity deleteUser(@PathVariable Long id) throws Exception {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             logger.info("User deleted");
             return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been deleted");
         } else if(!userRepository.existsById(id)){
             logger.error("Can't delete this user: user doesn't exists");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
+            throw new Exception("Id not found");
         }else{
             Error error = new Error("conflict in your request");
             logger.error("Can't delete this user: conflict in your request ");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
+             ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
+            throw new Exception("RequestConflict Exception");
         }
     }
 
