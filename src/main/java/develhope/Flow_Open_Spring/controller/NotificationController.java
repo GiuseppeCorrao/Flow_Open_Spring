@@ -33,7 +33,7 @@ public class NotificationController {
                 logger.error("Cannot send the mail because cannot find the answer");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot find the answer");
             } else {
-                emailService.sendTo(userToSendNotification.getEmail(), payload.getTitle(), payload.getText());
+                emailService.mailForActivationCode(userToSendNotification);
                 logger.info("mail sent");
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
