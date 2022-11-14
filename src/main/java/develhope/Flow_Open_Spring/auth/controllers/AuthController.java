@@ -21,11 +21,20 @@ public class AuthController {
     @Autowired
     private SignupService signupService;
 
+    @PostMapping("/signup")
+    public void signup(@RequestBody SignupDTO signupDTO) throws Exception {
+        signupService.signup(signupDTO);
+    }
+
+    @PostMapping("/signup/activation")
+    public void activate(@RequestBody SignupActivationDTO signupActivationDTO) throws Exception {
+        signupService.activate(signupActivationDTO);
+    }
 
     @PostMapping("/login")
     public LoginRTO login(@RequestBody LoginDTO loginDTO) throws Exception {
         LoginRTO loginRTO = loginService.login(loginDTO);
-        if(loginDTO == null) throw new Exception("Cannot login");
+        if (loginDTO == null) throw new Exception("Cannot login");
         return loginRTO;
     }
 
@@ -34,18 +43,10 @@ public class AuthController {
         passwordService.request(requestPasswordDTO);
     }
 
-    @PostMapping("/password/response")
-    public void response(@RequestBody RestorePasswordDTO restorePasswordDTO) throws Exception{
-        passwordService.response(restorePasswordDTO);
+    @PostMapping("/password/restore")
+    public void restore(@RequestBody RestorePasswordDTO restorePasswordDTO) throws Exception {
+        passwordService.restore(restorePasswordDTO);
     }
 
-    @PostMapping("/signup")
-    public void signup(@RequestBody SignupDTO signupDTO) throws Exception{
-        signupService.signup(signupDTO);
-    }
 
-    @PostMapping("/signup/activation")
-    public void activate(@RequestBody SignupActivationDTO signupActivationDTO) throws Exception{
-        signupService.activate(signupActivationDTO);
-    }
 }

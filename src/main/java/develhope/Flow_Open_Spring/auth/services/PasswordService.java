@@ -29,7 +29,7 @@ public class PasswordService {
         userRepository.save(user);
     }
 
-    public void response(RestorePasswordDTO restorePasswordDTO) throws Exception {
+    public void restore(RestorePasswordDTO restorePasswordDTO) throws Exception {
         User user = userRepository.findByRestorePasswordCode(restorePasswordDTO.getRestorePasswordCode());
         if (user == null) throw new Exception("Cannot find this user");
         user.setPassword(passwordEncoder.encode(restorePasswordDTO.getNewPassword()));
