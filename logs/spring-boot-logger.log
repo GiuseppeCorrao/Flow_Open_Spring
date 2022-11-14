@@ -33862,3 +33862,9 @@ This generated password is for development use only. Your security configuration
 2022-11-13 22:36:06,217 INFO org.apache.juli.logging.DirectJDKLog [http-nio-3030-exec-2] Initializing Spring DispatcherServlet 'dispatcherServlet'
 2022-11-13 22:36:06,217 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-3030-exec-2] Initializing Servlet 'dispatcherServlet'
 2022-11-13 22:36:06,224 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-3030-exec-2] Completed initialization in 4 ms
+2022-11-13 23:27:08,397 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-13 23:27:08,433 INFO org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [SpringApplicationShutdownHook] HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-11-13 23:27:08,482 ERROR org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl [SpringApplicationShutdownHook] HHH000478: Unsuccessful: drop table if exists order CASCADE 
+2022-11-13 23:27:08,498 WARN org.springframework.beans.factory.support.DisposableBeanAdapter [SpringApplicationShutdownHook] Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-197]
+2022-11-13 23:27:08,498 INFO com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2022-11-13 23:27:08,515 INFO com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
