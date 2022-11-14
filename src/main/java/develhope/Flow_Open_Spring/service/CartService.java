@@ -36,7 +36,7 @@ public class CartService {
 
     public void buy(User user) {
         var v = totalPrice();
-        Order order = new Order(0, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v);
+        Order order = new Order(0L, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v);
         orderRepository.save(order);
         productsOnCart.clear();
         orderService.sendToForOrder(order);

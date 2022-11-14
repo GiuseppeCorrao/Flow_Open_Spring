@@ -1,23 +1,34 @@
 package develhope.Flow_Open_Spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST) //because when this variable don't exist, the order can't exist
+    private String name;
+
+    private String email;
+
+    @OneToOne()
+    @JoinColumn(name = "userId")
+    //because when this variable don't exist, the order can't exist
     private User user;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany()
+    @JoinColumn(name = "cp_fk",referencedColumnName = "id")
     private List<Product> product;
-
 
     private LocalDate date;
 
@@ -29,7 +40,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(long id, User user, List<Product> product, LocalDate date, double price) {
+    public Order(Long id, User user, List<Product> product, LocalDate date, double price) {
         this.id = id;
         this.user = user;
         this.product = product;
@@ -37,7 +48,7 @@ public class Order {
         this.price = price;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

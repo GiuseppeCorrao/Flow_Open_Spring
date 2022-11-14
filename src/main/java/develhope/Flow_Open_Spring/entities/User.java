@@ -1,6 +1,9 @@
 package develhope.Flow_Open_Spring.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -17,6 +20,7 @@ public class User {
     @Column(nullable = false)
     private int age;
     @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
@@ -28,18 +32,27 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password) {
+    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String address,String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.birthday = birthday;
         this.gender = gender;
+        this.address = address;
         this.email = email;
         this.password = password;
     }
 
     public User() {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Long getId() {

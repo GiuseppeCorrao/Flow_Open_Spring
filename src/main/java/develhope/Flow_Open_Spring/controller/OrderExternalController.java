@@ -1,5 +1,6 @@
 package develhope.Flow_Open_Spring.controller;
 
+import develhope.Flow_Open_Spring.dto.OrderRequestDTO;
 import develhope.Flow_Open_Spring.entities.Order;
 import develhope.Flow_Open_Spring.repositories.OrderRepository;
 import develhope.Flow_Open_Spring.service.OrderService;
@@ -26,11 +27,16 @@ public class OrderExternalController {
 
 
     @PostMapping("")
-    public ResponseEntity postOrder(@RequestBody Order order) throws Exception {
+    public ResponseEntity postOrder(@RequestBody OrderRequestDTO orderRequestDTO) throws Exception {
 
-        orderService.saveOrder(order);
+        Order order1 = new Order();
+        order1.setUser(orderRequestDTO.getUser());
+        order1.setProduct(orderRequestDTO.getProducts().stream().toList());
 
-        orderService.sendToForOrder(orderRepository.getReferenceById(order.getId()));
+        orderService.saveOrder(order1);
+
+        orderService.sendToForOrder(orderRepository.getReferenceById(order1.getId()));
+
 
         return ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
     }
@@ -49,6 +55,14 @@ public class OrderExternalController {
 
             return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
         }
+    }
+
+    @GetMapping("{id}")
+    public @ResponseBody ResponseEntity getOrder(@PathVariable Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+
+        if(order.isPresent()) return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("can't find the order ");
     }
 
     @GetMapping("")

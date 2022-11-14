@@ -10,6 +10,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
 
 
 @Configuration
-@EnableSwagger2
 public class SpringFoxConfig {
 
     @Bean
@@ -40,7 +40,11 @@ public class SpringFoxConfig {
                         "GNU",
                         "https://www.gnu.org/licenses/gpl-3.0.en.html",
                         Collections.emptyList()
-                ));
+                ))
+                .useDefaultResponseMessages(false)
+                .tags(
+                        new Tag("MainController","the main controller")
+                );
     }
 
     @Bean
