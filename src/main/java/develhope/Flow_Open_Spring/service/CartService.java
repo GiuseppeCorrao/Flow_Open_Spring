@@ -34,12 +34,14 @@ public class CartService {
     }
 
 
-    public void buy(User user) {
+    public void buy(User user) throws Exception{
         var v = totalPrice();
         Order order = new Order(1, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v);
         orderRepository.save(order);
         productsOnCart.clear();
         emailOrderService.sendToForOrder(order);
+        if(emailOrderService == null) throw new Exception("Email is wrong");
+        if(productsOnCart == null) throw new Exception("Cart is empty");
         //send order to external service
     }
 
@@ -49,8 +51,7 @@ public class CartService {
      * @version 4.0
      * This method leaves the quantity of the products unchanged when you cancel the purchase
      */
-    public void abort() {
-
+    public void abort()  {
         productsOnCart.clear();
     }
 
