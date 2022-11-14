@@ -1,10 +1,16 @@
 package develhope.Flow_Open_Spring.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -17,6 +23,8 @@ public class User {
     @Column(nullable = false)
     private int age;
     @Column(nullable = false)
+    @JsonDeserialize
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
@@ -24,8 +32,12 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    private boolean isActive;
+    private String activationCode;
+    private String restorePasswordCode;
+    private LocalDateTime jwtCreatedOn;
 
-    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password) {
+    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password, boolean isActive, String activationCode, String restorePasswordCode, LocalDateTime jwtCreatedOn) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -34,6 +46,10 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.password = password;
+        this.isActive = isActive;
+        this.activationCode = activationCode;
+        this.restorePasswordCode = restorePasswordCode;
+        this.jwtCreatedOn = jwtCreatedOn;
     }
 
     public User() {
@@ -101,5 +117,37 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public String getRestorePasswordCode() {
+        return restorePasswordCode;
+    }
+
+    public void setRestorePasswordCode(String restorePasswordCode) {
+        this.restorePasswordCode = restorePasswordCode;
+    }
+
+    public LocalDateTime getJwtCreatedOn() {
+        return jwtCreatedOn;
+    }
+
+    public void setJwtCreatedOn(LocalDateTime jwtCreatedOn) {
+        this.jwtCreatedOn = jwtCreatedOn;
     }
 }

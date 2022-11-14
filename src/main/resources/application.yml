@@ -35,24 +35,21 @@ environments: test
 server:
   port: 3030
 spring:
-  profiles: test
   datasource:
     url: jdbc:h2:mem:testdb
-    username: testdb
-    password: psw1234
+    username: test
+    password:
   jpa:
-    database: mysql
-    show_sql: true
     hibernate:
       ddl-auto: create-drop
-      output:
-        ansi:
-          enabled: ALWAYS
+  h2:
+    console:
+      enabled: true
   mail:
     host: smtp.gmail.com
     port: 587
     username: f4kemailt3st@gmail.com
-    password: pospmwcwuqdkjjhb
+    password: gizsemkyxbhpyqfp
     properties:
       mail:
         smtp:
