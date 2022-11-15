@@ -1,5 +1,6 @@
 package develhope.Flow_Open_Spring.dto;
 
+import develhope.Flow_Open_Spring.entities.Order;
 import develhope.Flow_Open_Spring.entities.Product;
 import develhope.Flow_Open_Spring.entities.User;
 
@@ -7,23 +8,27 @@ import java.util.List;
 
 public class OrderRequestDTO {
 
-    User user;
+    private Order order;
 
-    List<Product> products;
+    public OrderRequestDTO(){
 
-    public User getUser() {
-        return user;
+    }
+    public OrderRequestDTO(Order order) {
+        this.order = order;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Order getOrder() {
+        return order;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    @Override
+    public String toString() {
+        return "OrderRequestDTO{" +
+                "order=" + order +
+                '}';
     }
 }

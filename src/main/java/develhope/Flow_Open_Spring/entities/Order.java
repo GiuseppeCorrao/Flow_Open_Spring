@@ -1,8 +1,6 @@
 package develhope.Flow_Open_Spring.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,38 +12,37 @@ public class Order {
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    private String email;
 
-    @OneToOne()
-    @JoinColumn(name = "userId")
-    //because when this variable don't exist, the order can't exist
+    @ManyToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 
-    @OneToMany()
-    @JoinColumn(name = "cp_fk",referencedColumnName = "id")
+    @ManyToMany
+    @JoinColumn(name = "product_id",referencedColumnName = "id")
     private List<Product> product;
+
 
     private LocalDate date;
 
 
-    private double price;
+    private double Complessiveprice;
 
 
 
     public Order() {
     }
 
-    public Order(Long id, User user, List<Product> product, LocalDate date, double price) {
+    public Order(Long id, User user, List<Product> product, LocalDate date, double Complessiveprice) {
         this.id = id;
         this.user = user;
         this.product = product;
         this.date = date;
-        this.price = price;
+        this.Complessiveprice = Complessiveprice;
     }
 
     public Long getId() {
@@ -80,11 +77,20 @@ public class Order {
         this.date = date;
     }
 
-    public double getPrice() {
-        return price;
+    public double getComplessiveprice() {
+        return Complessiveprice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setComplessiveprice(double complessiveprice) {
+        this.Complessiveprice = complessiveprice;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

@@ -1,6 +1,7 @@
 package develhope.Flow_Open_Spring.service;
 
 
+import develhope.Flow_Open_Spring.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +17,7 @@ public class EmailService {
 
     @Autowired
     JavaMailSender mailSender;
+
 
     public void sendTo(String email, String title, String text){
         try{

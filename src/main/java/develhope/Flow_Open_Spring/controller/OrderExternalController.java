@@ -2,6 +2,7 @@ package develhope.Flow_Open_Spring.controller;
 
 import develhope.Flow_Open_Spring.dto.OrderRequestDTO;
 import develhope.Flow_Open_Spring.entities.Order;
+import develhope.Flow_Open_Spring.entities.Product;
 import develhope.Flow_Open_Spring.repositories.OrderRepository;
 import develhope.Flow_Open_Spring.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,42 +28,20 @@ public class OrderExternalController {
 
 
     @PostMapping("")
-    public ResponseEntity postOrder(@RequestBody OrderRequestDTO orderRequestDTO) throws Exception {
-
-        Order order1 = new Order();
-        order1.setUser(orderRequestDTO.getUser());
-        order1.setProduct(orderRequestDTO.getProducts().stream().toList());
-
-        orderService.saveOrder(order1);
-
-        orderService.sendToForOrder(orderRepository.getReferenceById(order1.getId()));
+    public @ResponseBody Order postOrder(@RequestBody Order order) throws Exception {
 
 
-        return ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
+        ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
+        return orderService.saveOrder(order);
     }
 
 
-    @DeleteMapping("{id}")
-    public ResponseEntity deleteOrder(@PathVariable Long id) {
-
-        orderRepository.deleteById(id);
-
-        if (orderRepository.existsById(id)) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
-
-        } else {
-
-            return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
-        }
-    }
-
-    @GetMapping("{id}")
-    public @ResponseBody ResponseEntity getOrder(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public @ResponseBody Optional<Order> getOrder(@PathVariable Long id) {
         Optional<Order> order = orderRepository.findById(id);
 
-        if(order.isPresent()) return ResponseEntity.status(HttpStatus.OK).build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("can't find the order ");
+        if (order.isPresent()) ResponseEntity.status(HttpStatus.OK).build();
+        return order;
     }
 
     @GetMapping("")
@@ -83,6 +62,35 @@ public class OrderExternalController {
 
             return pageOrder;
         }
+    }
 
+    @PutMapping("/{id}")
+    public Order updateOrder(@PathVariable Long id, @RequestBody Order order) {
+
+        order.setId(id);
+        Optional<Order> findProduct = orderRepository.findById(id);
+        if (findProduct.isPresent()) {
+            orderRepository.save(order);
+            ResponseEntity.status(HttpStatus.OK).build();
+        } else if (findProduct.isEmpty()) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+        }
+        return order;
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteOrder(@PathVariable Long id) {
+
+        orderRepository.deleteById(id);
+
+        if (orderRepository.existsById(id)) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
+
+        } else {
+
+            return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
+        }
     }
 }

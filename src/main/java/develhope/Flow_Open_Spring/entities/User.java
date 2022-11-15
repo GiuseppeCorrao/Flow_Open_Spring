@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
@@ -21,6 +21,7 @@ public class User {
     private int age;
     @Column(nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonDeserialize
     private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
