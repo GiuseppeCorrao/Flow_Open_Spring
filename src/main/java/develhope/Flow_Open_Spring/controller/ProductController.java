@@ -29,15 +29,15 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOneProduct(@PathVariable Long id) {
+    public Product getOneProduct(@PathVariable Long id) {
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             productRepository.findById(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            ResponseEntity.status(HttpStatus.OK).build();
         } else if (findProduct.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
+        }ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
+        return productRepository.findProductById(id);
     }
 
     @PutMapping("/{id}")

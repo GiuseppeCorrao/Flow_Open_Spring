@@ -105,4 +105,15 @@ public class Product {
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
+
+    @Override
+    public String toString() {
+        return
+                "name='" + name + "\n" +
+                ", color='" + color + "\n" +
+                ", description='" + description + "\n" +
+                ", price=" + price +"\n"+
+               ", priceDelivery=" + priceDelivery +"\n"+
+                ", brand=" + brand ;
+    }
 }

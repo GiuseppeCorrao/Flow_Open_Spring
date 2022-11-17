@@ -59,6 +59,7 @@ public class OrderService {
 
     }
 
+
     public void sendToForOrder(Order order) {
         //cambiamento il tuo ordine è stato preso in carico
         User user = userRepository.getReferenceById(order.getUser().getId());
@@ -68,10 +69,10 @@ public class OrderService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(user.getEmail());
             helper.setFrom("f4kemailt3st@gmail.com");
-            helper.setSubject("Your order has been achieved");
-            helper.setText("<h1>Dear " + user.getName() + ",</h1> <h2>we appreciate your choiche and we can tell you tath your order is in working</h2>" + "<h3>Your order: \n " + order.getId() + " " + order.getDate() + "the date of ship is:\n " + order.getDate() + "your product is:\n " + order.getProduct() + "the total price is :\n " + order.getComplessiveprice() + "</h3>" + "<img src='cid:shipped' width=600>", true);
-            ClassPathResource image = new ClassPathResource("shipped.png");
-            helper.addInline("shipped", image);
+            helper.setSubject("Your order has been processed");
+            helper.setText("<h1>Dear " + user.getName() + ",</h1> <h2>we appreciate your choiche and we can tell you tath your order is in working</h2>" + "<h3>Your order: \n " + order.getId() + " \n"  +" the date of your order  is:\n " + order.getDate()  + " the total price is :\n " + order.getComplessiveprice() + "</h3>" + "<img src='cid:thanks' width=600>", true);
+            ClassPathResource image = new ClassPathResource("thanks.png");
+            helper.addInline("thanks", image);
             mailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,11 +86,11 @@ public class OrderService {
 
         order.setDate(LocalDate.now());
 
-        order.setName("FlowOpenOrder#" + UUID.randomUUID().toString());
-
         Order order1 = orderRepository.save(order);
 
         order.setComplessiveprice(addComplessivePrice(order1.getId()));
+
+        order.setName("FlowOpenOrder #" + order1.getId() );
 
         ResponseEntity.status(HttpStatus.OK).build();
 

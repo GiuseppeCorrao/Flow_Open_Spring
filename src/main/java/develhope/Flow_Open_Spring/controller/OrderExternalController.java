@@ -30,8 +30,8 @@ public class OrderExternalController {
     @PostMapping("")
     public @ResponseBody Order postOrder(@RequestBody Order order) throws Exception {
 
+        ResponseEntity.status(HttpStatus.OK).body("the order has been recived");
 
-        ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
         return orderService.saveOrder(order);
     }
 
@@ -69,10 +69,15 @@ public class OrderExternalController {
 
         order.setId(id);
         Optional<Order> findProduct = orderRepository.findById(id);
+
         if (findProduct.isPresent()) {
+
             orderRepository.save(order);
+
             ResponseEntity.status(HttpStatus.OK).build();
+
         } else if (findProduct.isEmpty()) {
+
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }
         return order;
