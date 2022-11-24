@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import develhope.Flow_Open_Spring.auth.services.LoginService;
 import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         DecodedJWT decoded;
         try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC512(LoginService.JWT_SECRET)).withIssuer("flowopen").build();
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC512(WebSecurity.secret)).withIssuer("flowopen").build();
             decoded = verifier.verify(token);
         } catch (JWTVerificationException ex) {
             chain.doFilter(request, response);
