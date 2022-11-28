@@ -20,15 +20,14 @@ import java.util.Optional;
 @RequestMapping("/order")
 public class OrderExternalController {
 
-    @Autowired
-    private OrderRepository orderRepository;
 
     @Autowired
     private OrderService orderService;
 
 
+
     @PostMapping("")
-    public @ResponseBody Order postOrder(@RequestBody Order order) throws Exception {
+    public @ResponseBody ResponseEntity<Order> postOrder(@RequestBody Order order) throws Exception {
 
         ResponseEntity.status(HttpStatus.OK).body("the order has been recived");
 
@@ -37,11 +36,8 @@ public class OrderExternalController {
 
 
     @GetMapping("/{id}")
-    public @ResponseBody Optional<Order> getOrder(@PathVariable Long id) {
-        Optional<Order> order = orderRepository.findById(id);
-
-        if (order.isPresent()) ResponseEntity.status(HttpStatus.OK).build();
-        return order;
+    public @ResponseBody ResponseEntity<Order> getOrder(@PathVariable Long id) {
+        return orderService.getOrder(id);
     }
 
     @GetMapping("")
@@ -53,7 +49,7 @@ public class OrderExternalController {
 
             Pageable pageable = PageRequest.of(page.get(), size.get(), sort);
 
-            Page<Order> orders = orderRepository.findAll(pageable);
+            Page<Order> orders = orderService.findAll(pageable);
 
             return orders;
 
@@ -65,37 +61,17 @@ public class OrderExternalController {
     }
 
     @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable Long id, @RequestBody Order order) {
+    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody Order order) {
 
-        order.setId(id);
-        Optional<Order> findProduct = orderRepository.findById(id);
+       return orderService.updateOrder(id, order);
 
-        if (findProduct.isPresent()) {
-
-            orderRepository.save(order);
-
-            ResponseEntity.status(HttpStatus.OK).build();
-
-        } else if (findProduct.isEmpty()) {
-
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
-        }
-        return order;
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteOrder(@PathVariable Long id) {
 
-        orderRepository.deleteById(id);
+        return ResponseEntity.ok(orderService.delete(id));
 
-        if (orderRepository.existsById(id)) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
-
-        } else {
-
-            return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
-        }
     }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -32,21 +31,32 @@ public class Order {
 
     private double Complessiveprice;
 
+    private String address;
+
 
 
     public Order() {
     }
 
-    public Order(Long id, User user, List<Product> product, LocalDate date, double Complessiveprice) {
+    public Order(Long id, User user, List<Product> product, LocalDate date, double Complessiveprice,String address) {
         this.id = id;
         this.user = user;
         this.product = product;
         this.date = date;
         this.Complessiveprice = Complessiveprice;
+        this.address = address;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setId(Long id) {

@@ -18,35 +18,37 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
 
-  @Autowired
-    ProductRepository productRepository;
     @Autowired
     CartService cartService;
 
+
+
+    @PutMapping("/{id}/addOnCart")
+    public ResponseEntity<Object> addOnCart(@PathVariable Long id) {
+        return ResponseEntity.ok(cartService.addOnCart(id));
+    }
+
+    @GetMapping("/abort")
+    public ResponseEntity abort() {
+        cartService.abort();
+        return ResponseEntity.ok("your cart is now empty");
+    }
+
+    @GetMapping("/getCartProduct")
+    public ResponseEntity<List<Product>> getAllProduct() {
+        if (cartService.getAllProductsOnCart().isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(cartService.getAllProductsOnCart());
+    }
+
     @GetMapping("/totalPrice")
-    public double totalPrice(){
+    public double totalPrice() {
         return cartService.totalPrice();
     }
 
     @PostMapping("/buy")
-    public List<Product> buy(@RequestBody User user){
-        cartService.buy(user);
-        return productRepository.findAll();
+    public ResponseEntity<Order> buy(@RequestBody User user) {
+        return ResponseEntity.ok(cartService.buy(user).getBody());
     }
 
-    @GetMapping("/abort")
-    public List<Product> abort(Long id) {
-            cartService.abort();
-            return productRepository.findAll();
-    }
 
-    @PutMapping("/{id}/addOnCart")
-    public ResponseEntity addOnCart(@PathVariable Long id, @RequestBody Product product){
-        if(productRepository.existsById(id)) {
-            cartService.addOnCart(product);
-            return ResponseEntity.status(HttpStatus.OK).body("Product added on cart");
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-        }
-    }
 }
