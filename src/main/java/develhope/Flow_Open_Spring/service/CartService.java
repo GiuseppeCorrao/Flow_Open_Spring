@@ -6,6 +6,7 @@ import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.OrderRepository;
 import develhope.Flow_Open_Spring.repositories.ProductRepository;
 import develhope.Flow_Open_Spring.repositories.UserRepository;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CartService {
 
 
     /*list for handling the Cart*/
-    List<Product> productsOnCart;
+    List<Product> productsOnCart = new ArrayList<>();
 
     @Autowired
     private UserRepository userRepository;
@@ -33,6 +34,36 @@ public class CartService {
 
     @Autowired
     private OrderService orderService;
+
+    /**
+     * @param id
+     * @return ResponseEntity<Object>String,Product</Object>
+     * @Author Giuseppe Corrao
+     * @version 2.0
+     */
+    public ResponseEntity<Object> addOnCart(long id) {
+        /*create product from db*/
+        Optional<Product> product = productRepository.findProductById(id);
+        /*verify if quantity is !0*/
+        if (product.get().getQuantity() == 0) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("no item avaible");
+        /*verify if product exist*/
+        if (product.isPresent()) {
+            Product productFromOptional =product.get();
+            productsOnCart.add(productFromOptional);
+            return ResponseEntity.ok(product);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+
+    }
+
+    /**
+     * @author Giuseppe Corrao
+     * @return List<Product>productOnCart</Product>
+     */
+    public List<Product> getAllProductsOnCart() {
+        return productsOnCart;
+    }
 
     /**
      * @return double sum
@@ -60,16 +91,18 @@ public class CartService {
     }
 
     /**
-     * @param user
+     * @param id
      * @return ResponseEntity
      * @author Giuseppe Corrao
      * @version 3.0
      */
-    public ResponseEntity<Order> buy(User user) {
+    public Order buy(long id) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()) throw new Exception("the user indicated is not found");
         /*the v variable is the sum of all product's price*/
         var v = totalPrice();
         /*create a new order for this purchase and add variable*/
-        Order order = new Order(0L, userRepository.getReferenceById(user.getId()), productsOnCart, LocalDate.now(), v, user.getAddress());
+        Order order = new Order(0L, user.get(), productsOnCart, LocalDate.now(), v, user.get().getAddress());
         /*save order in db*/
         orderRepository.save(order);
         /*delete all product on cart*/
@@ -81,7 +114,7 @@ public class CartService {
 
             productsOnCart.get(i).setQuantity(productsOnCart.get(i).getQuantity() - 1);
         }
-        return ResponseEntity.ok(order);
+        return order;
         //send order to external service
     }
 
@@ -96,33 +129,6 @@ public class CartService {
         productsOnCart.clear();
     }
 
-    /**
-     * @param id
-     * @return ResponseEntity<Object>String,Product</Object>
-     * @Author Giuseppe Corrao
-     * @version 2.0
-     */
-    public ResponseEntity<Object> addOnCart(long id) {
-        /*create product from db*/
-        Optional<Product> product = productRepository.findProductById(id);
-        /*verify if quantity is !0*/
-        if (product.get().getQuantity() == 0) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("no item avaible");
-        /*verify if product exist*/
-        if (productRepository.existsById(id)) {
-            productsOnCart.add(productRepository.findProductById(id).get());
-            return ResponseEntity.ok(product);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-        }
 
-    }
-
-    /**
-     * @author Giuseppe Corrao
-     * @return List<Product>productOnCart</Product>
-     */
-    public List<Product> getAllProductsOnCart() {
-        return productsOnCart;
-    }
 
 }

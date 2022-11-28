@@ -23,15 +23,9 @@ public class CartController {
 
 
 
-    @PutMapping("/{id}/addOnCart")
+    @PutMapping("/addOnCart/{id}")
     public ResponseEntity<Object> addOnCart(@PathVariable Long id) {
         return ResponseEntity.ok(cartService.addOnCart(id));
-    }
-
-    @GetMapping("/abort")
-    public ResponseEntity abort() {
-        cartService.abort();
-        return ResponseEntity.ok("your cart is now empty");
     }
 
     @GetMapping("/getCartProduct")
@@ -41,13 +35,27 @@ public class CartController {
     }
 
     @GetMapping("/totalPrice")
-    public double totalPrice() {
-        return cartService.totalPrice();
+    public ResponseEntity<Double> totalPrice() {
+        if (cartService.getAllProductsOnCart().isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(cartService.totalPrice());
     }
 
-    @PostMapping("/buy")
-    public ResponseEntity<Order> buy(@RequestBody User user) {
-        return ResponseEntity.ok(cartService.buy(user).getBody());
+
+
+    @GetMapping("/abort")
+    public ResponseEntity abort() {
+        cartService.abort();
+        return ResponseEntity.ok("your cart is now empty");
+    }
+
+    /**
+     * THIS METHOD MUST CHANGE WITH SESSION LOADER
+     * @param 'user' (getContextLoader().getContext().getPrincipal();
+     * @return ResponseEntity<Order>order</Order>
+     */
+    @PostMapping("/buy/{id}")
+    public ResponseEntity<Order> buy(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(cartService.buy(id));
     }
 
 

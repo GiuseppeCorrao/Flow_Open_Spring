@@ -56,7 +56,7 @@ public class OrderService {
         List<Product> listOfProduct = new ArrayList<>();
         /*cycle on listOfProduct for adding product from order*/
         for (int i = 0; i < order.get().getProduct().size(); i++) {
-            listOfProduct.add(productRepository.findProductById(order.get().getProduct().get(i).getId()));
+            listOfProduct.add(productRepository.findProductById(order.get().getProduct().get(i).getId()).get());
 
         }
         /*var for operation*/

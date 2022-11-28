@@ -37,7 +37,7 @@ public class ProductController {
         } else if (findProduct.isEmpty()) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
         }ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Syntax error");
-        return productRepository.findProductById(id);
+        return productRepository.findProductById(id).get();
     }
 
     @PutMapping("/{id}")
