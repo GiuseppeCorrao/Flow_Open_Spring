@@ -1,7 +1,10 @@
 package develhope.Flow_Open_Spring.controller;
 
+import develhope.Flow_Open_Spring.dto.OrderRequestDTO;
 import develhope.Flow_Open_Spring.entities.Order;
+import develhope.Flow_Open_Spring.entities.Product;
 import develhope.Flow_Open_Spring.repositories.OrderRepository;
+import develhope.Flow_Open_Spring.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,39 +17,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Order")
+@RequestMapping("/order")
+/*add PreRequest for Admin (limit this access)*/
 public class OrderExternalController {
 
+
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
+
+
 
     @PostMapping("")
-    public ResponseEntity postOrder(@RequestParam Order order) {
+    public @ResponseBody ResponseEntity<Order> postOrder(@RequestBody Order order) throws Exception {
 
-        if (orderRepository.existsById(order.getId())) {
+        ResponseEntity.status(HttpStatus.OK).body("the order has been recived");
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("the id already exist on database");
-
-        } else {
-            orderRepository.save(order);
-
-            return ResponseEntity.status(HttpStatus.OK).body("the order as been recived");
-        }
+        return orderService.saveOrder(order);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity deleteOrder(@PathVariable Long id) {
 
-        orderRepository.deleteById(id);
-
-        if (orderRepository.existsById(id)) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
-
-        } else {
-
-            return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
-        }
+    @GetMapping("/{id}")
+    public @ResponseBody ResponseEntity<Order> getOrder(@PathVariable Long id) {
+        return orderService.getOrder(id);
     }
 
     @GetMapping("")
@@ -58,7 +50,7 @@ public class OrderExternalController {
 
             Pageable pageable = PageRequest.of(page.get(), size.get(), sort);
 
-            Page<Order> orders = orderRepository.findAll(pageable);
+            Page<Order> orders = orderService.findAll(pageable);
 
             return orders;
 
@@ -67,6 +59,20 @@ public class OrderExternalController {
 
             return pageOrder;
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody Order order) {
+
+       return orderService.updateOrder(id, order);
+
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteOrder(@PathVariable Long id) {
+
+        return ResponseEntity.ok(orderService.delete(id));
 
     }
 }

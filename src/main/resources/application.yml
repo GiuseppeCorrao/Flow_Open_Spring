@@ -5,43 +5,14 @@ environments: development
 server:
   port: 8080
 spring:
-  profiles: development
   datasource:
     url: jdbc:mysql://localhost:3306/flowopendev
     username: developer
     password: developer
   jpa:
-    database: mysql
-    show_sql: true
+    database: MYSQL
     hibernate:
-      ddl-auto: create-drop
-      output:
-        ansi:
-          enabled: ALWAYS
-      mail:
-        host: smtp.gmail.com
-        port: 587
-        username: f4kemailt3st@gmail.com
-        password: pospmwcwuqdkjjhb
-        properties:
-          mail:
-            smtp:
-              auth: true
-              starttls:
-                enable: true
-
----
-environments: test
-server:
-  port: 3030
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: test
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   h2:
     console:
       enabled: true
@@ -50,6 +21,36 @@ spring:
     port: 587
     username: f4kemailt3st@gmail.com
     password: gizsemkyxbhpyqfp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  mvc:
+    pathmatch:
+      matching-strategy: "ant_path_matcher"
+
+---
+environments: test
+server:
+  port: 3030
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: testdb
+    password: psw1234
+  jpa:
+    database: H2
+    show_sql: true
+    hibernate:
+      ddl-auto: create-drop
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: f4kemailt3st@gmail.com
+    password: pospmwcwuqdkjjhb
     properties:
       mail:
         smtp:

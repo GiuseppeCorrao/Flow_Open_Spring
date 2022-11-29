@@ -1,45 +1,65 @@
 package develhope.Flow_Open_Spring.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    private String name;
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
+    @JoinColumn(name = "product_id",referencedColumnName = "id")
     private List<Product> product;
 
 
-    private LocalDate Date;
+    private LocalDate date;
 
-    private double price;
+
+    private double Complessiveprice;
+
+    private String address;
 
 
 
     public Order() {
     }
 
-    public Order(long id, User user, List<Product> product, LocalDate date, double price) {
+    public Order(Long id, User user, List<Product> product, LocalDate date, double Complessiveprice,String address) {
         this.id = id;
         this.user = user;
         this.product = product;
-        Date = date;
-        this.price = price;
+        this.date = date;
+        this.Complessiveprice = Complessiveprice;
+        this.address = address;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,18 +80,27 @@ public class Order {
     }
 
     public LocalDate getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(LocalDate date) {
-        Date = date;
+        this.date = date;
     }
 
-    public double getPrice() {
-        return price;
+    public double getComplessiveprice() {
+        return Complessiveprice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setComplessiveprice(double complessiveprice) {
+        this.Complessiveprice = complessiveprice;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

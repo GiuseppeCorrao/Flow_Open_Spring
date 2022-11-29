@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOneProduct(@PathVariable Long id) {
+    public ResponseEntity<? extends Object> getOneProduct(@PathVariable Long id) {
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             productRepository.findById(id);
@@ -50,6 +50,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        product.setId(id);
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             logger.info("Product updated");

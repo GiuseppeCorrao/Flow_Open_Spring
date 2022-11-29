@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
@@ -28,6 +28,9 @@ public class User {
     private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
+
+    @Column(nullable = false)
+    private String address;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
@@ -37,13 +40,14 @@ public class User {
     private String restorePasswordCode;
     private LocalDateTime jwtCreatedOn;
 
-    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String email, String password, boolean isActive, String activationCode, String restorePasswordCode, LocalDateTime jwtCreatedOn) {
+    public User(Long id, String name, String surname, int age, LocalDate birthday, String gender, String address, String email, String password, boolean isActive, String activationCode, String restorePasswordCode, LocalDateTime jwtCreatedOn) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.birthday = birthday;
         this.gender = gender;
+        this.address = address;
         this.email = email;
         this.password = password;
         this.isActive = isActive;
@@ -53,6 +57,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Long getId() {

@@ -26,6 +26,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/user/**").permitAll()
+                .antMatchers("/product/**").permitAll()
+                .antMatchers("/cart/**").permitAll()
                 .anyRequest().authenticated();
         ;
 

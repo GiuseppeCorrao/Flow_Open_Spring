@@ -6,8 +6,8 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String color;
     @Column(nullable = false)
@@ -104,5 +104,16 @@ public class Product {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "name='" + name + "\n" +
+                ", color='" + color + "\n" +
+                ", description='" + description + "\n" +
+                ", price=" + price +"\n"+
+               ", priceDelivery=" + priceDelivery +"\n"+
+                ", brand=" + brand ;
     }
 }

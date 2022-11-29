@@ -1,5 +1,6 @@
 package develhope.Flow_Open_Spring.controller;
 
+import develhope.Flow_Open_Spring.entities.Order;
 import develhope.Flow_Open_Spring.entities.Product;
 import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.ProductRepository;
@@ -18,41 +19,45 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
 
-  @Autowired
-  ProductRepository productRepository;
+
     @Autowired
     CartService cartService;
-    Logger logger = LoggerFactory.getLogger(CartController.class);
+
+
+    @PutMapping("/addOnCart/{id}")
+    public ResponseEntity<Object> addOnCart(@PathVariable Long id) {
+        return ResponseEntity.ok(cartService.addOnCart(id));
+    }
+
+    @GetMapping("/getCartProduct")
+    public ResponseEntity<List<Product>> getAllProduct() {
+        if (cartService.getAllProductsOnCart().isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(cartService.getAllProductsOnCart());
+    }
+
 
     @GetMapping("/totalPrice")
-    public double totalPrice(){
-        logger.info("Calculating the total price");
-        return cartService.totalPrice();
+    public ResponseEntity<Double> totalPrice() {
+        if (cartService.getAllProductsOnCart().isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(cartService.totalPrice());
     }
 
-
-    @PostMapping("/buy")
-    public List<Product> buy(@RequestBody User user){
-        cartService.buy(user);
-        logger.info("Product purchased");
-        return productRepository.findAll();
-    }
 
     @GetMapping("/abort")
-    public List<Product> abort(Long id) {
-            cartService.abort();
-            logger.info("Purchased cancelled");
-            return productRepository.findAll();
+    public ResponseEntity abort() {
+        cartService.abort();
+        return ResponseEntity.ok("your cart is now empty");
     }
 
-    @PutMapping("/{id}/addOnCart")
-    public ResponseEntity addOnCart(@PathVariable Long id, @RequestBody Product product){
-        if(productRepository.existsById(id)) {
-            cartService.addOnCart(product);
-            logger.info("Product added on the cart");
-            return ResponseEntity.status(HttpStatus.OK).body("Product added on cart");
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-        }
+    /**
+     * THIS METHOD MUST CHANGE WITH SESSION LOADER
+     *
+     * @param 'user' (getContextLoader().getContext().getPrincipal();
+     * @return ResponseEntity<Order>order</Order>
+     */
+    @PostMapping("/buy/{id}")
+    public ResponseEntity<Order> buy(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(cartService.buy(id));
     }
+
 }
