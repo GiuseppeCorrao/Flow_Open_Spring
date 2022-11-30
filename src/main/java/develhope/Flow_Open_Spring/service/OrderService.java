@@ -7,6 +7,7 @@ import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.OrderRepository;
 import develhope.Flow_Open_Spring.repositories.ProductRepository;
 import develhope.Flow_Open_Spring.repositories.UserRepository;
+import org.hibernate.cfg.Environment;
 import org.hibernate.id.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -31,6 +32,7 @@ public class OrderService {
 
     @Autowired
     private JavaMailSender mailSender;
+
 
     @Autowired
     private OrderRepository orderRepository;
@@ -82,11 +84,13 @@ public class OrderService {
         /**
          * @see the format must be changed
          */
+
+
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(user.getEmail());
-            helper.setFrom("f4kemailt3st@gmail.com");
+            helper.setFrom("flowoopenv@gmail.com");
             helper.setSubject("Your order has been processed");
             helper.setText("<h1>Dear " + user.getName() + ",</h1> <h2>we appreciate your choiche and we can tell you tath your order is in working</h2>" + "<h3>Your order: \n " + order.getId() + " \n" + " the date of your order  is:\n " + order.getDate() + " the total price is :\n " + order.getComplessiveprice() + "</h3>" + "<img src='cid:thanks' width=600>", true);
             ClassPathResource image = new ClassPathResource("thanks.png");

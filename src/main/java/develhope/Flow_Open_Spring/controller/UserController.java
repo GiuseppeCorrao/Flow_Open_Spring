@@ -32,10 +32,10 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity createUser(@RequestBody User user) {
-         userRepository.saveAndFlush(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+          User userFromDB =userRepository.saveAndFlush(user);
          logger.info("User created");
-         return ResponseEntity.status(HttpStatus.OK).build();
+         return ResponseEntity.ok(userFromDB);
 
     }
 
@@ -43,9 +43,9 @@ public class UserController {
     public ResponseEntity updateUser(@RequestBody User user, @PathVariable Long id) {
         if (userRepository.existsById(id)) {
             user.setId(id);
-            userRepository.saveAndFlush(user);
+            User userFromDB = userRepository.saveAndFlush(user);
             logger.info("User updated");
-            return ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been updated");
+            return ResponseEntity.ok(userFromDB);
         } else if(!userRepository.existsById(id)){
             logger.error("Can't update this user: user doesn't exists");
           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
@@ -58,14 +58,13 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
+             userRepository.deleteById(id);
             logger.info("User deleted");
             return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body("Successful of the request! The user has been deleted");
         } else if(!userRepository.existsById(id)){
             logger.error("Can't delete this user: user doesn't exists");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the user");
         }else{
-            Error error = new Error("conflict in your request");
             logger.error("Can't delete this user: conflict in your request ");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a conflict in your request");
         }
