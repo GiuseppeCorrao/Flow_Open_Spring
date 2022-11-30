@@ -27,7 +27,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
-        ;
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
@@ -37,6 +36,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 jwtTokenFilter,
                 UsernamePasswordAuthenticationFilter.class
         );
-        ;
     }
 }

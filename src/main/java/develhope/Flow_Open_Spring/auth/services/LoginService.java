@@ -4,9 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import develhope.Flow_Open_Spring.auth.entities.LoginDTO;
 import develhope.Flow_Open_Spring.auth.entities.LoginRTO;
+import develhope.Flow_Open_Spring.config.WebSecurity;
 import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,17 @@ import java.util.Date;
 @Service
 public class LoginService {
 
-    public static final String JWT_SECRET = "708c4fca-7264-4f90-b0c5-a763af3670cc";
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
+
+    @Value("security.secret")
+    String var;
+
+    public String customVar(){
+        return var;
+    }
 
     public LoginRTO login(LoginDTO loginDTO) throws Exception{
         if(loginDTO == null) return null;
@@ -52,10 +60,11 @@ public class LoginService {
         return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public static String getJWT(User user) {
+    public String getJWT(User user) {
         Date expire = convertToDateViaInstant(LocalDateTime.now().plusDays(15));
         return JWT.create().withIssuer("flowopen").withIssuedAt(new Date()).withExpiresAt(expire)
-                .withClaim("id", user.getId()).sign(Algorithm.HMAC512(JWT_SECRET));
+                .withClaim("id", user.getId()).sign(Algorithm.HMAC512(customVar()));
     }
+
 
 }
