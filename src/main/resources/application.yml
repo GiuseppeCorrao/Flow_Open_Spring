@@ -55,3 +55,5 @@ spring:
           auth: true
           starttls:
             enable: true
+      security:
+        secret: 4bc03d48-a37f-4c64-97dd-122bcae1a00a

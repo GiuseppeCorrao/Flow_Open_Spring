@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import develhope.Flow_Open_Spring.entities.User;
 import develhope.Flow_Open_Spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserRepository userRepo;
 
+    @Value("security.secret")
+    String var;
+
+    public String customVar(){
+        return var;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -47,7 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         DecodedJWT decoded;
         try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC512(WebSecurity.secret)).withIssuer("flowopen").build();
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC512(customVar())).withIssuer("flowopen").build();
             decoded = verifier.verify(token);
         } catch (JWTVerificationException ex) {
             chain.doFilter(request, response);
