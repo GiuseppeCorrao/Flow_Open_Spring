@@ -20,18 +20,21 @@ public class SignupDTO {
     @Column(nullable = false)
     private int age;
     @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
     @JsonDeserialize
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthday;
     @Column(nullable = false)
     private String gender;
 
-    public SignupDTO(String name, String surname, String email, String password, int age, LocalDate birthday, String gender) {
+    public SignupDTO(String name, String surname, String email, String password, int age,String address, LocalDate birthday, String gender) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.age = age;
+        this.address = address;
         this.birthday = birthday;
         this.gender = gender;
     }
@@ -93,5 +96,13 @@ public class SignupDTO {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

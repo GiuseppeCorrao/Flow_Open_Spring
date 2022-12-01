@@ -135,10 +135,9 @@ public class OrderService {
      * @author Giuseppe Corrao
      */
     public ResponseEntity<Order> getOrder(Long id) {
-
-        if (!orderRepository.existsById(id)) return ResponseEntity.noContent().build();
-
-        return ResponseEntity.ok(orderRepository.getReferenceById(id));
+        Optional<Order> order = orderRepository.findById(id);
+        if (!order.isPresent()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(order.get());
 
     }
 
@@ -169,12 +168,12 @@ public class OrderService {
      */
     public ResponseEntity<String> delete(Long id) {
 
-        if (orderRepository.existsById(id)) {
+        if (!orderRepository.existsById(id)) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot delete this order");
 
         } else {
-
+             orderRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("the order has been deleted");
         }
     }

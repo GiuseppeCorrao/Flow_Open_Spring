@@ -21,10 +21,10 @@ public class ProductController {
     Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @PostMapping
-    public ResponseEntity createProduct(@RequestBody Product product) {
-        productRepository.save(product);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product product1 = productRepository.save(product);
         logger.info("Product created");
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok(product1);
     }
 
     @GetMapping
@@ -37,9 +37,9 @@ public class ProductController {
     public ResponseEntity<? extends Object> getOneProduct(@PathVariable Long id) {
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
-            productRepository.findById(id);
+            Optional<Product> product = productRepository.findById(id);
             logger.info("Single product taken");
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.ok(product.get());
         } else if (findProduct.isEmpty()) {
             logger.error("There is an error: no products in the db");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
@@ -49,13 +49,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<? extends Object> updateProduct(@PathVariable Long id, @RequestBody Product product) {
         product.setId(id);
         Optional<Product> findProduct = productRepository.findById(id);
         if (findProduct.isPresent()) {
             logger.info("Product updated");
             productRepository.save(product);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.ok(product);
         } else if (findProduct.isEmpty()) {
             logger.error("There is an error: no products in the db");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find product");
@@ -70,7 +70,7 @@ public class ProductController {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
             logger.info("Product deleted");
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.ok("the product has been deleted");
         } else {
             logger.error("There is an error: can't delete the product because doesn't exists");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Did not find the product");

@@ -29,10 +29,9 @@ public class OrderExternalController {
 
     @PostMapping("")
     public @ResponseBody ResponseEntity<Order> postOrder(@RequestBody Order order) throws Exception {
-
+        orderService.saveOrder(order);
         ResponseEntity.status(HttpStatus.OK).body("the order has been recived");
-
-        return orderService.saveOrder(order);
+        return ResponseEntity.ok(order);
     }
 
 

@@ -29,6 +29,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/product/**").permitAll()
                 .antMatchers("/cart/**").permitAll()
+                .antMatchers("/order/**").permitAll()
+                .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
         ;
 

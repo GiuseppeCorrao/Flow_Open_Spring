@@ -7,15 +7,15 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/flowopendev
-    username: developer
-    password: developer
+    username: root
+    password: root
   jpa:
-    database: MYSQL
+    database: mysql
     hibernate:
       ddl-auto: create-drop
   h2:
     console:
-      enabled: true
+      enabled: false
   mail:
     host: smtp.gmail.com
     port: 587
