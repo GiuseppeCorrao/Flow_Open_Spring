@@ -16,6 +16,15 @@ public class DownloadController {
     @Autowired
     private FileService fileService;
 
+    /**
+     * this is the function for download the image
+     *
+     * @author Emmanuele La Duca
+     * @param fileName
+     * @param httpServletResponse
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/download")
     public byte[] download(@RequestParam String fileName, HttpServletResponse httpServletResponse) throws IOException {
         String extension = FilenameUtils.getExtension(fileName);

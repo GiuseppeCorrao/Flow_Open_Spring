@@ -19,6 +19,15 @@ public class UploadController {
     @Autowired
     private FileService fileService;
 
+    /**
+     * this is the function for upload the image
+     *
+     * @author Emmanuele La Duca
+     * @param file
+     * @param httpServletResponse
+     * @throws IOException
+     * @throws MissingServletRequestParameterException
+     */
     @PostMapping("/upload")
     public void upload(@RequestParam MultipartFile file, HttpServletResponse httpServletResponse) throws IOException, MissingServletRequestParameterException {
         httpServletResponse.setHeader("Content-Disposition", "attacchment; filename= diagramma ER");

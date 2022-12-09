@@ -17,6 +17,14 @@ public class FileService {
     @Value("${fileRepositoryFolder}")
     private String fileRepositoryFolder;
 
+    /**
+     * Within the function we find commands to be able to upload the photo
+     *
+     * @author Emmanuele La Duca
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public String upload(MultipartFile file) throws IOException {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         String newFileName = UUID.randomUUID().toString();
@@ -26,6 +34,15 @@ public class FileService {
         file.transferTo(finalDestination);
         return completeFileName;
     }
+
+    /**
+     * Within the function we find commands to be able to download the photo
+     *
+     * @author Emmanuele La Duca
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     public byte[] download(String fileName) throws IOException {
         File fileFromRepository = new File(fileRepositoryFolder + "\\" + fileName);
         if (!fileFromRepository.exists()) throw new IOException("File does not exists");
